@@ -3,7 +3,7 @@ import { getHomePage, handleSave, handleDelete, getOne, handlePut, handleGet} fr
 let router = express.Router();
 
 let initWebRoutes = (app) => {
-  router.get("/", getHomePage);
+  // router.get("/", getHomePage);
   router.get("/api/get", handleGet);
   router.get("/getone", getOne);
   router.post("/api/save", handleSave); 
