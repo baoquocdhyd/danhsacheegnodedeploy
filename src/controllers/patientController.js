@@ -3,6 +3,14 @@ import { Op } from 'sequelize'
 
 let getHomePage = async (req, res) => {
   try {
+    let data = await db.patients.findAll()
+    return res.render('homepage.ejs', { data: JSON.stringify(data) })
+  } catch (e) {
+    console.log(e)
+  }
+}
+let handleGet = async (req, res) => {
+  try {
     let data = await db.patients.findAll({
       order: [['id', 'DESC']],
     })
@@ -11,7 +19,6 @@ let getHomePage = async (req, res) => {
     console.log(e)
   }
 }
-
 let handleSave = async (req, res) => {
   try {
     let message = await db.patients.create({
@@ -37,7 +44,6 @@ let handleSave = async (req, res) => {
     console.log(e)
   }
 }
-
 let handleDelete = async (req, res) => {
   try {
     let data = await db.patients.destroy({ where: { id: req.body.id } })
@@ -46,7 +52,6 @@ let handleDelete = async (req, res) => {
     console.log(e)
   }
 }
-
 let getOne = async (req, res) => {
   try {
     let data = await db.patients.findAll({ where: { id: req.query.id } })
@@ -55,7 +60,6 @@ let getOne = async (req, res) => {
     console.log(e)
   }
 }
-
 let handlePut = async (req, res) => {
   try {
     let message = await db.patients.update(
@@ -83,4 +87,4 @@ let handlePut = async (req, res) => {
     console.log(e)
   }
 }
-export { getHomePage, handleSave, handleDelete, getOne, handlePut }
+export { getHomePage, handleGet, handleSave, handleDelete, getOne, handlePut }

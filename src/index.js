@@ -24,6 +24,5 @@ connectDB();
 let port = process.env.PORT || 6969;
 
 app.listen(port, () => {
-    console.log(`Kết nối với web: 
-                        http://localhost:${port}`) 
+    console.log(`Kết nối với web: http://localhost:${port}`) 
 })
