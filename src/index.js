@@ -7,7 +7,7 @@ import cors from "cors";
 require ('dotenv').config()
 
 let app = express();
-app.set('trust proxy', 1)
+// app.set('trust proxy', 1)
 app.use(function (req, res, next) {
   res.setHeader('Access-Control-Allow-Origin', process.env.URL_REACT);
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
