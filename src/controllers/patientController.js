@@ -25,7 +25,7 @@ let handleSave = async (req, res) => {
       ho: req.body.ho,
       ten: req.body.ten,
       sohoso: req.body.sohoso,
-      gioitinh: req.body.gioitinh === 1 ? true : false,
+      gioitinh: req.body.gioitinh,
       namsinh: req.body.namsinh,
       sodienthoai: req.body.sodienthoai,
       ngaynhanhen: req.body.ngaynhanhen,
@@ -37,6 +37,7 @@ let handleSave = async (req, res) => {
       kythuavien: req.body.kythuavien,
       bacsi: req.body.bacsi,
       ghichu: req.body.ghichu,
+      status: req.body.status === 1 ? true : false,
       image: req.body.image,
     })
     return res.status(200).json(message)
@@ -67,7 +68,7 @@ let handlePut = async (req, res) => {
         ho: req.body.ho,
         ten: req.body.ten,
         sohoso: req.body.sohoso,
-        gioitinh: req.body.gioitinh === 1 ? true : false,
+        gioitinh: req.body.gioitinh,
         namsinh: req.body.namsinh,
         sodienthoai: req.body.sodienthoai,
         ngayhendo: req.body.ngayhendo,
@@ -78,6 +79,7 @@ let handlePut = async (req, res) => {
         kythuavien: req.body.kythuavien,
         bacsi: req.body.bacsi,
         ghichu: req.body.ghichu,
+        status: req.body.status === 1 ? true : false,
         image: req.body.image,
       },
       { where: { id: req.body.id } }

@@ -10,7 +10,7 @@ module.exports = {
       },
       ho: { type: Sequelize.STRING },
       ten: { type: Sequelize.STRING },
-      gioitinh: { type: Sequelize.BOOLEAN },
+      gioitinh: { type: Sequelize.STRING },
       namsinh: { type: Sequelize.DATE },
       sohoso: { type: Sequelize.STRING },
       sodienthoai: { type: Sequelize.STRING },

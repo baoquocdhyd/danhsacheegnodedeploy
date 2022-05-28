@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       ho: DataTypes.STRING,
       ten: DataTypes.STRING,
-      gioitinh: DataTypes.BOOLEAN,
+      gioitinh: DataTypes.STRING,
       namsinh: DataTypes.DATE,
       sohoso: DataTypes.STRING,
       sodienthoai: DataTypes.STRING,
