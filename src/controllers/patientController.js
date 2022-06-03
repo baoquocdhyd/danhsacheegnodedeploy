@@ -13,6 +13,7 @@ let handleGet = async (req, res) => {
   try {
     let data = await db.patients.findAll({
       order: [['id', 'DESC']],
+      where: { status: true },
     })
     return res.status(200).json(data)
   } catch (e) {
