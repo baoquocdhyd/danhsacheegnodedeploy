@@ -20,6 +20,18 @@ let handleGet = async (req, res) => {
     console.log(e)
   }
 }
+
+let handleGetStatusOff = async (req, res) => {
+  try {
+    let data = await db.patients.findAll({
+      order: [['id', 'DESC']],
+      where: { status: false },
+    })
+    return res.status(200).json(data)
+  } catch (e) {
+    console.log(e)
+  }
+}
 let handleSave = async (req, res) => {
   try {
     let message = await db.patients.create({
@@ -90,4 +102,42 @@ let handlePut = async (req, res) => {
     console.log(e)
   }
 }
-export { getHomePage, handleGet, handleSave, handleDelete, getOne, handlePut }
+
+let handlePutStatusOn = async (req, res) => {
+  try {
+    let message = await db.patients.update(
+      {
+        status: true,
+      },
+      { where: { id: req.body.id } }
+    )
+    return res.status(200).json(message)
+  } catch (e) {
+    console.log(e)
+  }
+}
+let handlePutStatusOff = async (req, res) => {
+  try {
+    let message = await db.patients.update(
+      {
+        status: false,
+      },
+      { where: { id: req.body.id } }
+    )
+    return res.status(200).json(message)
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+export {
+  getHomePage,
+  handleGet,
+  handleSave,
+  handleDelete,
+  getOne,
+  handlePut,
+  handlePutStatusOn,
+  handlePutStatusOff,
+  handleGetStatusOff,
+}
