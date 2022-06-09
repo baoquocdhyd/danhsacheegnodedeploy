@@ -1,6 +1,10 @@
 import db from '../models/index.js'
 import { Op } from 'sequelize'
-
+import multer from 'multer'
+import path from 'path'
+import appRoot from 'app-root-path'
+import moment from 'moment'
+// import path from 'path'
 let getHomePage = async (req, res) => {
   try {
     let data = await db.patients.findAll()
@@ -21,6 +25,77 @@ let handleGet = async (req, res) => {
   }
 }
 
+let getUploadFilePage = async (req, res) => {
+  return res.render('uploadFile.ejs')
+}
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, appRoot + '/src/public/image/')
+    // console.log(appRoot)
+  },
+  filename: function (req, file, cb) {
+    cb(
+      null,
+      file.fieldname +
+        '-' +
+        moment(Date.now()).format('YYYY-MM-DD HH-mm-ss-SSS') +
+        path.extname(file.originalname)
+    )
+  },
+})
+
+const imageFilter = function (req, file, cb) {
+  if (!file.originalname.match(/\.(jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF)$/)) {
+    req.fileValidationError = 'Only image files are allowed!'
+    return cb(new Error('Only image files are allowed!'), false)
+  }
+  cb(null, true)
+}
+let handleUploadFile = async (req, res) => {
+  let upload = multer({ storage: storage, fileFilter: imageFilter }).single('profile_pic')
+  upload(req, res, function (err) {
+    if (req.fileValidationError) {
+      return res.send(req.fileValidationError)
+    } else if (!req.file) {
+      return res.send('Please select an image to upload')
+    } else if (err instanceof multer.MulterError) {
+      return res.send(err)
+    } else if (err) {
+      return res.send(err)
+    }
+    res.send(`You have uploaded this image:<br/>
+      <a href="/upload">Upload another image</a><br/>
+      <img src="/image/${req.file.filename}" width="500">`)
+  })
+}
+
+let handleUploadMultipleFile = async (req, res) => {
+  let upload = multer({ storage: storage, fileFilter: imageFilter }).array('multiple_images', 4)
+
+  upload(req, res, function (err) {
+    if (req.fileValidationError) {
+      return res.send(req.fileValidationError)
+    } else if (!req.files) {
+      return res.send('Please select an image to upload')
+    } else if (err instanceof multer.MulterError) {
+      return res.send(err)
+    } else if (err) {
+      return res.send(err)
+    }
+
+    let result = 'You have uploaded these images: <hr />'
+    const files = req.files
+    // console.log('>>>check files',files)
+    let index, len
+    for (index = 0, len = files.length; index < len; ++index) {
+      result += `<img src="/image/${files[index].filename}" width="300" style="margin-right: 20px;">`
+    }
+    result = '<hr/><a href="/upload">Upload more images</a>' + result
+    res.send(result)
+  })
+}
+
 let handleGetStatusOff = async (req, res) => {
   try {
     let data = await db.patients.findAll({
@@ -32,6 +107,7 @@ let handleGetStatusOff = async (req, res) => {
     console.log(e)
   }
 }
+
 let handleSave = async (req, res) => {
   try {
     let message = await db.patients.create({
@@ -136,6 +212,9 @@ export {
   handleSave,
   handleDelete,
   getOne,
+  getUploadFilePage,
+  handleUploadFile,
+  handleUploadMultipleFile,
   handlePut,
   handlePutStatusOn,
   handlePutStatusOff,
