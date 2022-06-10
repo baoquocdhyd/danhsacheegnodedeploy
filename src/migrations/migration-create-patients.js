@@ -11,7 +11,7 @@ module.exports = {
       ho: { type: Sequelize.STRING },
       ten: { type: Sequelize.STRING },
       gioitinh: { type: Sequelize.STRING },
-      namsinh: { type: Sequelize.STRING },
+      namsinh: { type: Sequelize.INTEGER },
       sohoso: { type: Sequelize.STRING },
       sodienthoai: { type: Sequelize.STRING },
       ngaynhanhen: { type: Sequelize.DATE },
