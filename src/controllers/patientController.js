@@ -18,6 +18,20 @@ let handleGet = async (req, res) => {
     let data = await db.patients.findAll({
       order: [['id', 'DESC']],
       where: { status: true },
+      attributes: { exclude: ['image'] },
+    })
+    return res.status(200).json(data)
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+let getPicture = async (req, res) => {
+  try {
+    let data = await db.patients.findOne({
+      order: [['id', 'DESC']],
+      where: { id:req.query.id },
+      attributes:  ['image'] ,
     })
     return res.status(200).json(data)
   } catch (e) {
@@ -178,6 +192,20 @@ let handlePut = async (req, res) => {
   }
 }
 
+let handlePutPicture = async (req, res) => {
+  try {
+    let message = await db.patients.update(
+      {
+        image: req.body.image,
+      },
+      { where: { id: req.body.id } }
+    )
+    return res.status(200).json(message)
+  } catch (e) {
+    console.log(e)
+  }
+}
+
 let handlePutStatusOn = async (req, res) => {
   try {
     let message = await db.patients.update(
@@ -208,6 +236,7 @@ let handlePutStatusOff = async (req, res) => {
 export {
   getHomePage,
   handleGet,
+  getPicture,
   handleSave,
   handleDelete,
   getOne,
@@ -215,6 +244,7 @@ export {
   handleUploadFile,
   handleUploadMultipleFile,
   handlePut,
+  handlePutPicture,
   handlePutStatusOn,
   handlePutStatusOff,
   handleGetStatusOff,

@@ -20,7 +20,8 @@ app.use(function (req, res, next) {
 
 app.use(cors({ origin: true }))
 app.use(express.static("files"));
-app.use(bodyParser.json())
+app.use(bodyParser.json({limit: '30000kb'}))
+
 app.use(bodyParser.urlencoded({ extended: true }))
 viewEngine(app)
 initWebRoutes(app)
