@@ -182,7 +182,7 @@ let handlePut = async (req, res) => {
         bacsi: req.body.bacsi,
         ghichu: req.body.ghichu,
         status: req.body.status === 1 ? true : false,
-        image: req.body.image,
+        // image: req.body.image,
       },
       { where: { id: req.body.id } }
     )
