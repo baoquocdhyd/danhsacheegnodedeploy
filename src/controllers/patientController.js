@@ -37,7 +37,7 @@ const storage = multer.diskStorage({
   filename: function (req, file, cb) {
     cb(
       null,
-      file.fieldname +
+      file.originalname +
         '-' +
         moment(Date.now()).format('YYYY-MM-DD HH-mm-ss-SSS') +
         path.extname(file.originalname)
@@ -53,7 +53,7 @@ const imageFilter = function (req, file, cb) {
   cb(null, true)
 }
 let handleUploadFile = async (req, res) => {
-  let upload = multer({ storage: storage, fileFilter: imageFilter }).single('profile_pic')
+  let upload = multer({ storage: storage,  fileFilter: imageFilter }).single('file')
   upload(req, res, function (err) {
     if (req.fileValidationError) {
       return res.send(req.fileValidationError)
@@ -64,9 +64,8 @@ let handleUploadFile = async (req, res) => {
     } else if (err) {
       return res.send(err)
     }
-    res.send(`You have uploaded this image:<br/>
-      <a href="/upload">Upload another image</a><br/>
-      <img src="/image/${req.file.filename}" width="500">`)
+    console.log(req) 
+    res.send(req.file)
   })
 }
 
